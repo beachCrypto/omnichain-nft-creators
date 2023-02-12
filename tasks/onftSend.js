@@ -33,7 +33,7 @@ module.exports = async function (taskArgs, hre) {
     const nativeFee = (await localContractInstance.estimateSendFee(CHAIN_ID[taskArgs.targetNetwork], owner.address, tokenId, false, adapterParam)).nativeFee
     
     try {
-        await localContractInstance.setMinDstGas(10109, 1, 150000)
+        await localContractInstance.setMinDstGas(CHAIN_ID[taskArgs.targetNetwork], 1, 150000)
 
         let tx = await (
 
@@ -48,6 +48,8 @@ module.exports = async function (taskArgs, hre) {
                 { value: nativeFee }
             )
         ).wait()
+        console.log("tx", tx)
+        console.log("tx adapterParam", tx.adapterParam)
         console.log(`✅ [${hre.network.name}] send(${remoteChainId}, ${tokenId})`)
         console.log(` tx: ${tx.transactionHash}`)
     } catch (e) {
