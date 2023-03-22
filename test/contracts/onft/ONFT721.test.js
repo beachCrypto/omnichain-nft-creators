@@ -114,9 +114,18 @@ describe("ONFT721: ", function () {
         let nativeFee = (await ONFT_A.estimateSendFee(chainId_B, owner.address, tokenId, false, defaultAdapterParams)).nativeFee
 
         // swaps token to other chain
-        await ONFT_A.sendFrom(owner.address, chainId_B, owner.address, tokenId, owner.address, ethers.constants.AddressZero, defaultAdapterParams, {
-            value: nativeFee,
-        })
+        await ONFT_A.sendFrom(
+            owner.address,
+            chainId_B,
+            owner.address,
+            tokenId,
+            owner.address,
+            ethers.constants.AddressZero,
+            defaultAdapterParams,
+            {
+                value: nativeFee,
+            }
+        )
 
         // token received on the dst chain
         expect(await ONFT_B.ownerOf(tokenId)).to.be.equal(owner.address)
@@ -146,9 +155,18 @@ describe("ONFT721: ", function () {
         let nativeFee = (await ONFT_A.estimateSendFee(chainId_B, owner.address, tokenId, false, defaultAdapterParams)).nativeFee
 
         // swaps token to other chain
-        await ONFT_A.sendFrom(owner.address, chainId_B, owner.address, tokenId, owner.address, ethers.constants.AddressZero, defaultAdapterParams, {
-            value: nativeFee,
-        })
+        await ONFT_A.sendFrom(
+            owner.address,
+            chainId_B,
+            owner.address,
+            tokenId,
+            owner.address,
+            ethers.constants.AddressZero,
+            defaultAdapterParams,
+            {
+                value: nativeFee,
+            }
+        )
 
         // token received on the dst chain
         expect(await ONFT_B.ownerOf(tokenId)).to.be.equal(owner.address)
@@ -186,9 +204,18 @@ describe("ONFT721: ", function () {
         let nativeFee = (await ONFT_A.estimateSendFee(chainId_B, owner.address, tokenId, false, defaultAdapterParams)).nativeFee
 
         // swaps token to other chain
-        await ONFT_A.sendFrom(owner.address, chainId_B, owner.address, tokenId, owner.address, ethers.constants.AddressZero, defaultAdapterParams, {
-            value: nativeFee,
-        })
+        await ONFT_A.sendFrom(
+            owner.address,
+            chainId_B,
+            owner.address,
+            tokenId,
+            owner.address,
+            ethers.constants.AddressZero,
+            defaultAdapterParams,
+            {
+                value: nativeFee,
+            }
+        )
 
         // token received on the dst chain
         expect(await ONFT_B.ownerOf(tokenId)).to.be.equal(owner.address)
@@ -221,9 +248,18 @@ describe("ONFT721: ", function () {
         let nativeFee = (await ONFT_A.estimateSendFee(chainId_B, owner.address, tokenId, false, defaultAdapterParams)).nativeFee
 
         // swaps token to other chain
-        await ONFT_A.sendFrom(owner.address, chainId_B, owner.address, tokenId, owner.address, ethers.constants.AddressZero, defaultAdapterParams, {
-            value: nativeFee,
-        })
+        await ONFT_A.sendFrom(
+            owner.address,
+            chainId_B,
+            owner.address,
+            tokenId,
+            owner.address,
+            ethers.constants.AddressZero,
+            defaultAdapterParams,
+            {
+                value: nativeFee,
+            }
+        )
 
         // token received on the dst chain
         expect(await ONFT_B.ownerOf(tokenId)).to.be.equal(owner.address)
@@ -300,16 +336,20 @@ describe("ONFT721: ", function () {
         let nativeFee = (await ONFT_A.estimateSendBatchFee(chainId_B, warlock.address, tokenIds, false, defaultAdapterParams)).nativeFee
 
         // initiate batch transfer
-        await expect(ONFT_A.connect(warlock).sendBatchFrom(
-            warlock.address,
-            chainId_B,
-            warlock.address,
-            tokenIds,
-            warlock.address,
-            ethers.constants.AddressZero,
-            adapterParams, // TODO might need to change this
-            { value: nativeFee }
-        )).to.emit(ONFT_B, "CreditStored").withArgs(hashedPayload, payload)
+        await expect(
+            ONFT_A.connect(warlock).sendBatchFrom(
+                warlock.address,
+                chainId_B,
+                warlock.address,
+                tokenIds,
+                warlock.address,
+                ethers.constants.AddressZero,
+                adapterParams, // TODO might need to change this
+                { value: nativeFee }
+            )
+        )
+            .to.emit(ONFT_B, "CreditStored")
+            .withArgs(hashedPayload, payload)
 
         // only partial amount of tokens has been sent, the rest have been stored as a credit
         let creditedIdsA = []
@@ -370,16 +410,20 @@ describe("ONFT721: ", function () {
         let nativeFee = (await ONFT_A.estimateSendBatchFee(chainId_B, warlock.address, tokenIds, false, adapterParams)).nativeFee
 
         // initiate batch transfer
-        await expect(ONFT_A.connect(warlock).sendBatchFrom(
-            warlock.address,
-            chainId_B,
-            warlock.address,
-            tokenIds,
-            warlock.address,
-            ethers.constants.AddressZero,
-            adapterParams, // TODO might need to change this
-            { value: nativeFee }
-        )).to.emit(ONFT_B, "CreditStored").withArgs(hashedPayload, payload)
+        await expect(
+            ONFT_A.connect(warlock).sendBatchFrom(
+                warlock.address,
+                chainId_B,
+                warlock.address,
+                tokenIds,
+                warlock.address,
+                ethers.constants.AddressZero,
+                adapterParams, // TODO might need to change this
+                { value: nativeFee }
+            )
+        )
+            .to.emit(ONFT_B, "CreditStored")
+            .withArgs(hashedPayload, payload)
 
         // only partial amount of tokens has been sent, the rest have been stored as a credit
         let creditedIdsA = []
@@ -395,7 +439,7 @@ describe("ONFT721: ", function () {
         // console.log("Number of tokens credited: ", creditedIdsA.length)
 
         // clear the rest of the credits
-        let tx = await(await ONFT_B.clearCredits(payload)).wait()
+        let tx = await (await ONFT_B.clearCredits(payload)).wait()
 
         // console.log("Total gasUsed: ", tx.gasUsed.toString())
 
